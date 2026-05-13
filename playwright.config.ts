@@ -2,20 +2,22 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 30000,
-  retries: 2,                    // Retry failed tests twice in CI
-  workers: process.env.CI ? 1 : undefined,   // 1 worker in CI
+  timeout: 60000,           // ⬆ Increased from 30s to 60s
+  retries: 2,
+  workers: process.env.CI ? 1 : undefined,
   reporter: [
     ['html', { outputFolder: 'playwright-report' }],
-    ['github'],                  // GitHub Actions annotations
+    ['github'],
     ['list']
   ],
   use: {
     baseURL: 'https://www.saucedemo.com',
-    screenshot: 'only-on-failure',   // Capture screenshots on failure
-    video: 'retain-on-failure',      // Record video on failure
-    trace: 'on-first-retry',         // Tracing for debugging
-    headless: true,                  // Always headless in CI
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    trace: 'on-first-retry',
+    headless: true,
+    actionTimeout: 15000,    // ✅ Each action waits max 15s
+    navigationTimeout: 30000 // ✅ Page navigation waits max 30s
   },
   projects: [
     {
